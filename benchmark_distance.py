@@ -11,9 +11,7 @@ obu wersji na dwóch profilach:
 Użycie: python benchmark_distance.py [-n PRÓBKI_NA_KANAŁ] [--repeats R] [--no-numpy]
 """
 import argparse
-import importlib
-import statistics
-import sys
+import math
 import tempfile
 import time
 from pathlib import Path
@@ -63,7 +61,11 @@ def main() -> None:
             p = tmp / f"{name}.ld"
             p.write_bytes(build_ld(chans))
             r_orig, r_opt = orig.parse_ld(p), opt.parse_ld(p)
-            assert r_orig == r_opt, f"{name}: wyniki się różnią! {r_orig} vs {r_opt}"
+            # wersja zoptymalizowana sumuje na intach (bezstratnie), więc wynik
+            # może różnić się od float-owej akumulacji oryginału na ostatnich bitach
+            assert r_orig[1] == r_opt[1] and math.isclose(
+                r_orig[0], r_opt[0], rel_tol=1e-9), \
+                f"{name}: wyniki się różnią! {r_orig} vs {r_opt}"
             t_orig = _time(orig.parse_ld, p, args.repeats)
             t_opt = _time(opt.parse_ld, p, args.repeats)
             print(f"{name:22} {t_orig*1000:8.1f}ms {t_opt*1000:13.1f}ms {t_orig/t_opt:14.2f}x")

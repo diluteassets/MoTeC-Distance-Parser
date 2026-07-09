@@ -97,6 +97,17 @@ SCENARIOS = {
          ch("Wheel_Speed_FR", [59.0] * N, dsize=4, dec=2, mul=2, scale=4, shift=1)],
         # wartość = raw * 2/4 * 10^-2 + 1: raw z ch() liczone dla 59 -> fiz. 30.5
         None, "ok (FL)"),
+    "wheels_negative_mul": (         # ujemny mul: wartość = raw * (-1) -> 60
+        [{"name": "Wheel_Speed_FL", "unit": "km/h", "rate": 100, "mul": -1,
+          "raw": [-60] * N},
+         {"name": "Wheel_Speed_FR", "unit": "km/h", "rate": 100, "mul": -1,
+          "raw": [-60] * N}],
+        1.0, "ok (FL)"),
+    "zero_via_shift_skipped": (      # stała 60 z shift=-60 -> fizycznie 0 -> pomiń
+        [{"name": "Wheel_Speed_FL", "unit": "km/h", "rate": 100, "shift": -60,
+          "raw": [60] * N},
+         ch("Ground Speed", C60)],
+        1.0, "ok (Ground Speed)"),
     "ms_unit_wheels": (
         [ch("Wheel_Speed_FL", MS_60, unit="m/s", dec=3),
          ch("Wheel_Speed_FR", MS_60, unit="m/s", dec=3)],
