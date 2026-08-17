@@ -1,0 +1,23 @@
+# Private config and data — these must never reach the public repository
+channels.json
+reference_data.json
+
+# Telemetry logs and results
+*.ld
+*.ldx
+results*.csv
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+*.egg-info/
+
+# OS / editors
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
