@@ -1,0 +1,25 @@
+{
+  "_about": [
+    "Template for the regression test's reference data. Copy this file to",
+    "'reference_data.json' and fill in your own sessions (that file is",
+    "gitignored, so session and driver names never reach the repository).",
+    "",
+    "Key   = path to the .ld file, relative to this file's folder.",
+    "Value = the 'Corr Dist [m]' read from MoTeC i2 for that session.",
+    "",
+    "Missing .ld files are SKIPPED by the test, so the repository stays",
+    "portable and needs no logs committed to it."
+  ],
+
+  "tolerance_pct": 5.0,
+  "tolerance_m": 3.0,
+
+  "sessions": {
+    "examples/session_01.ld": 1462,
+    "examples/session_02.ld": 4067,
+    "examples/session_03.ld": 2063,
+    "examples/session_04.ld": 502,
+    "examples/session_05.ld": 205,
+    "examples/session_06.ld": 531
+  }
+}

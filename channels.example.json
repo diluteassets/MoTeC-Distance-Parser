@@ -1,0 +1,54 @@
+{
+  "_about": [
+    "Template for the channel-name config. Copy this file to 'channels.json'",
+    "and fill in the names from your own log (channels.json is gitignored, so",
+    "it never reaches the repository).",
+    "",
+    "To look up your own channel names:",
+    "  python motec_distance.py session.ld --list-channels",
+    "",
+    "Wheel channels and fallback channels are matched as 'the name contains",
+    "this fragment', case-insensitive. List order = priority."
+  ],
+
+  "wheel_channels": {
+    "FL": ["<front_left_wheel_speed>"],
+    "FR": ["<front_right_wheel_speed>"],
+    "RL": ["<rear_left_wheel_speed>"],
+    "RR": ["<rear_right_wheel_speed>"]
+  },
+
+  "gps": {
+    "_about": [
+      "A GPS/IMU reporting its velocity vector as components. Matching happens",
+      "on the name SUFFIX, and whatever precedes it is treated as the receiver",
+      "name — which is how two receivers in a single log are told apart",
+      "automatically so their readings can be averaged."
+    ],
+    "axis_x_suffixes": ["velx"],
+    "axis_y_suffixes": ["vely"],
+
+    "_about_scalar": [
+      "Fallback when no components exist: a single GPS speed channel. The name",
+      "must contain ALL of 'scalar_requires' and NONE of 'scalar_excludes'",
+      "(that filters out target/command channels)."
+    ],
+    "scalar_requires": ["gps", "speed"],
+    "scalar_excludes": ["command", "setpoint", "target", "limit", "max", "min", "error"]
+  },
+
+  "_about_fallback": [
+    "Last resort, when there are neither front wheels nor GPS.",
+    "DELIBERATELY no rear wheels — we never compute distance from driven",
+    "wheels: wheelspin inflates the result, and on a dyno they spin while the",
+    "car stands still."
+  ],
+  "fallback_channels": [
+    "ground speed",
+    "gps speed",
+    "vehicle speed",
+    "<front_left_wheel_speed>",
+    "<front_right_wheel_speed>",
+    "<ecu_speed>"
+  ]
+}
